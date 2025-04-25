@@ -98,34 +98,36 @@ function computerMove(board, winConditions, difficulty) {
     return getRandomMove(board);
   }
 
-  // Hard: Always play optimally with randomness for equally good moves
   if (difficulty === 'hard') {
-    let optimalMove = findWinningMove(board, '2', winConditions); // Check if computer can win
+    // Check for a win
+    let optimalMove = findWinningMove(board, '2', winConditions);
     if (optimalMove !== null) return optimalMove;
-
-    optimalMove = findWinningMove(board, '1', winConditions); // Check if player can win, block them
+  
+    // Check for a block
+    optimalMove = findWinningMove(board, '1', winConditions);
     if (optimalMove !== null) return optimalMove;
-
-    // Check for a fork opportunity for the computer
+  
+    // Check for a fork for the computer
     optimalMove = findForkMove(board, '2', winConditions);
     if (optimalMove !== null) return optimalMove;
-
-    // Check for a fork opportunity for the player, block it
+  
+    // Check for a fork to block the player
     optimalMove = findForkMove(board, '1', winConditions);
     if (optimalMove !== null) return optimalMove;
-
-    // Take the center if available
-    if (board[4] === '') return 4;
-
-    // Take a random available corner
-    const corners = [0, 2, 6, 8];
-    const availableCorners = corners.filter(corner => board[corner] === '');
-    if (availableCorners.length > 0) {
-      const randomIndex = Math.floor(Math.random() * availableCorners.length);
-      return availableCorners[randomIndex];
+  
+    // Define strong opening moves: center (4) and corners (0, 2, 6, 8)
+    const strongMoves = [4, 0, 2, 6, 8];
+    // Filter out moves that are already taken (e.g., 6 in this case)
+    const availableStrongMoves = strongMoves.filter(move => board[move] === '');
+    
+    // Randomly select from available strong moves
+    if (availableStrongMoves.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableStrongMoves.length);
+      console.log("Available strong moves:", availableStrongMoves, "Selected:", availableStrongMoves[randomIndex]);
+      return availableStrongMoves[randomIndex];
     }
-
-    // If no corners available, take a random move
+  
+    // Fallback to any random move if no strong moves are left
     return getRandomMove(board);
   }
 
