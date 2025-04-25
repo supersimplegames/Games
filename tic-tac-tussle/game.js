@@ -260,6 +260,13 @@ function startGame() {
     return;
   }
 
+  // Reset scores and history when starting a new game from the splash screen
+  gameState.score1 = 0;
+  gameState.score2 = 0;
+  gameState.gameHistory = [];
+  updateScoreDisplay();
+  updateScoreboard();
+
   gameState.player1Name = name1;
   gameState.player2Name = gameState.gameMode === 'vsComputer' ? 'Computer' : name2;
 
