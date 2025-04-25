@@ -45,15 +45,6 @@ function computerMove(board, winConditions, difficulty) {
     return availableMoves[Math.floor(Math.random() * availableMoves.length)];
   }
 
-  // Helper function to shuffle an array (Fisher-Yates shuffle)
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
   // Helper function to find a fork (move creating two winning opportunities)
   function findForkMove(board, player, winConditions) {
     const availableMoves = getAvailableMoves(board);
@@ -126,13 +117,15 @@ function computerMove(board, winConditions, difficulty) {
     // Take the center if available
     if (board[4] === '') return 4;
 
-    // Take a random corner if available
+    // Take a random available corner
     const corners = [0, 2, 6, 8];
-    const shuffledCorners = shuffleArray([...corners]); // Shuffle corners to add variety
-    for (let corner of shuffledCorners) {
-      if (board[corner] === '') return corner;
+    const availableCorners = corners.filter(corner => board[corner] === '');
+    if (availableCorners.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableCorners.length);
+      return availableCorners[randomIndex];
     }
 
+    // If no corners available, take a random move
     return getRandomMove(board);
   }
 
