@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Tussle</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="splash-screen">
+    <div class="splash-content">
+      <h2>Tic Tac Tussle</h2>
+      <div class="game-mode-selection">
+        <fieldset>
+          <legend class="radio-group-label">Select Game Mode:</legend>
+          <div class="radio-group">
+            <label for="mode-two-players">
+              <input type="radio" id="mode-two-players" name="game-mode" value="twoPlayers" checked />
+              2 Players
+            </label>
+            <label for="mode-vs-computer">
+              <input type="radio" id="mode-vs-computer" name="game-mode" value="vsComputer" />
+              1 Player (vs Computer)
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="difficulty-selection" id="difficulty-selection">
+        <fieldset>
+          <legend class="radio-group-label">Difficulty:</legend>
+          <div class="radio-group">
+            <label for="difficulty-easy">
+              <input type="radio" id="difficulty-easy" name="difficulty" value="easy" />
+              Easy
+            </label>
+            <label for="difficulty-medium">
+              <input type="radio" id="difficulty-medium" name="difficulty" value="medium" checked />
+              Medium
+            </label>
+            <label for="difficulty-hard">
+              <input type="radio" id="difficulty-hard" name="difficulty" value="hard" />
+              Hard
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="player-input">
+        <label for="player-1-name" class="sr-only">Player 1 Name</label>
+        <input type="text" id="player-1-name" placeholder="Player 1 Name" />
+        <div class="emoji-selection" id="player-1-emoji-selection">
+          <button class="emoji-btn selected" data-emoji="😊">😊</button>
+          <button class="emoji-btn" data-emoji="❤️">❤️</button>
+          <button class="emoji-btn" data-emoji="⭐">⭐</button>
+          <button class="emoji-btn" data-emoji="☀️">☀️</button>
+          <button class="emoji-btn" data-emoji="🌸">🌸</button>
+        </div>
+      </div>
+      <div class="player-input" id="player-2-input">
+        <label for="player-2-name" class="sr-only">Player 2 Name</label>
+        <input type="text" id="player-2-name" placeholder="Player 2 Name" />
+        <div class="emoji-selection" id="player-2-emoji-selection" data-default-emoji="❤️">
+          <button class="emoji-btn" data-emoji="😊">😊</button>
+          <button class="emoji-btn selected" data-emoji="❤️">❤️</button>
+          <button class="emoji-btn" data-emoji="⭐">⭐</button>
+          <button class="emoji-btn" data-emoji="☀️">☀️</button>
+          <button class="emoji-btn" data-emoji="🌸">🌸</button>
+        </div>
+      </div>
+      <button id="start-game">Start Game</button>
+    </div>
+  </div>
+  <div id="game-container">
+    <div class="main-content">
+      <div id="board-section">
+        <h1 id="game-title">Tic Tac Tussle</h1>
+        <div id="status">Player 1's turn</div>
+        <div id="board-wrapper">
+          <div id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+          </div>
+          <div class="grid-line horizontal-line-1"></div>
+          <div class="grid-line horizontal-line-2"></div>
+          <div class="grid-line vertical-line-1"></div>
+          <div class="grid-line vertical-line-2"></div>
+          <div id="win-line"></div>
+        </div>
+        <div id="reset-wrapper">
+          <button id="play-again">Play Again</button>
+          <button id="back-to-menu">Back to Menu</button>
+          <div class="difficulty-selection" id="game-difficulty-selection">
+            <label for="game-difficulty">Change Difficulty:</label>
+            <select id="game-difficulty" class="mode-selection">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+        </div>
+        <div id="scoreboard">
+          <h3>Game History</h3>
+          <ul id="history-list"></ul>
+        </div>
+        <div class="scores-content mobile-scores">
+          <div class="total-scores">
+            <h3>Total Scores</h3>
+            <p><span id="player-1-label">Player 1</span> - <span id="score-1">0</span></p>
+            <p><span id="player-2-label">Player 2</span> - <span id="score-2">0</span></p>
+          </div>
+          <div class="reset-scores-wrapper">
+            <button id="reset-scores">Reset Scores</button>
+          </div>
+        </div>
+      </div>
+      <div id="scores-section">
+        <div class="desktop-scores">
+          <div class="total-scores">
+            <h3>Total Scores</h3>
+            <p><span id="player-1-label">Player 1</span> - <span id="score-1">0</span></p>
+            <p><span id="player-2-label">Player 2</span> - <span id="score-2">0</span></p>
+          </div>
+          <div class="reset-scores-wrapper">
+            <button id="reset-scores">Reset Scores</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="game.js"></script>
+  <script src="computerPlayer.js"></script>
+  <script src="confetti.js"></script>
+</body>
+</html>
