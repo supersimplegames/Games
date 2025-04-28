@@ -98,36 +98,47 @@ function computerMove(board, winConditions, difficulty) {
     return getRandomMove(board);
   }
 
+  // Hard: Play optimally with randomness in the opening move
   if (difficulty === 'hard') {
-    // Check for a win
-    let optimalMove = findWinningMove(board, '2', winConditions);
+    let optimalMove = findWinningMove(board, '2', winConditions); // Check if computer can win
     if (optimalMove !== null) return optimalMove;
-  
-    // Check for a block
-    optimalMove = findWinningMove(board, '1', winConditions);
+
+    optimalMove = findWinningMove(board, '1', winConditions); // Check if player can win, block them
     if (optimalMove !== null) return optimalMove;
-  
-    // Check for a fork for the computer
+
+    // Check for a fork opportunity for the computer
     optimalMove = findForkMove(board, '2', winConditions);
     if (optimalMove !== null) return optimalMove;
-  
-    // Check for a fork to block the player
+
+    // Check for a fork opportunity for the player, block it
     optimalMove = findForkMove(board, '1', winConditions);
     if (optimalMove !== null) return optimalMove;
-  
-    // Define strong opening moves: center (4) and corners (0, 2, 6, 8)
-    const strongMoves = [4, 0, 2, 6, 8];
-    // Filter out moves that are already taken (e.g., 6 in this case)
-    const availableStrongMoves = strongMoves.filter(move => board[move] === '');
-    
-    // Randomly select from available strong moves
-    if (availableStrongMoves.length > 0) {
-      const randomIndex = Math.floor(Math.random() * availableStrongMoves.length);
-      console.log("Available strong moves:", availableStrongMoves, "Selected:", availableStrongMoves[randomIndex]);
-      return availableStrongMoves[randomIndex];
+
+    // Count the number of moves made (non-empty cells)
+    const movesMade = board.filter(cell => cell !== '').length;
+
+    // First move: Randomize between center and corners for variety
+    if (movesMade === 1) { // Player has made 1 move, this is computer's first move
+      const strongMoves = [4, 0, 2, 6, 8]; // Center and corners
+      const availableStrongMoves = strongMoves.filter(move => board[move] === '');
+      if (availableStrongMoves.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableStrongMoves.length);
+        return availableStrongMoves[randomIndex];
+      }
     }
-  
-    // Fallback to any random move if no strong moves are left
+
+    // After the first move, prioritize the center for optimal play
+    if (board[4] === '') return 4;
+
+    // Take a random available corner
+    const corners = [0, 2, 6, 8];
+    const availableCorners = corners.filter(corner => board[corner] === '');
+    if (availableCorners.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableCorners.length);
+      return availableCorners[randomIndex];
+    }
+
+    // If no corners available, take a random move
     return getRandomMove(board);
   }
 
